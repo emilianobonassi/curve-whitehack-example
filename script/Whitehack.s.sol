@@ -5,6 +5,8 @@ import "forge-std/Script.sol";
 import {Factory} from "../src/Factory.sol";
 import {Whitehack} from "../src/Whitehack.sol";
 
+import "../src/interface.sol";
+
 contract WhitehackScript is Script {
     function run() public {
         vm.startBroadcast();
@@ -16,15 +18,13 @@ contract WhitehackScript is Script {
         console.log("factory deployed at:", address(factory));
 
         // 1. Prepare the whitehack parameters
-        bytes memory params = abi.encode(
-            uint256(42) // put here your params
-        );
+        bytes memory params = '';
         // Advanced
         uint256 ethRequired = 0; // you should not need to send eth to the whitehack
 
 
         // 2. Deploy and execute the whitehack
-        factory.deployAndExec{value: ethRequired}(
+        (address wh, ) = factory.deployAndExec{value: ethRequired}(
             ethRequired, 
             bytes32('whitehack'), 
             type(Whitehack).creationCode, 
@@ -32,6 +32,11 @@ contract WhitehackScript is Script {
         );
 
         console.log("whitehack executed with success");
+
+        console.log("saved", 
+            IWFTM(payable(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2)).balanceOf(Whitehack(payable(wh)).safeBox())/(1e18),
+            "WETH"
+        );
 
         vm.stopBroadcast();
     }

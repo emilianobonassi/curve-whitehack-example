@@ -1,6 +1,6 @@
-# Whitehacks Kit
+# Curve Whitehack example 30/07/2023
 
-A simple template to perform whitehacks safely in a single tx, leveraging Foundry and Flashbots.
+Based on [Whitehacks Kit](https://github.com/emilianobonassi/whitehacks-kit), adapted from [SunWeb3Sec](https://github.com/SunWeb3Sec/DeFiHackLabs/blob/main/src/test/Curve_exp01.sol) (thanks!) 
 
 ## Disclaimer
 
@@ -42,7 +42,7 @@ netstat -an | grep LISTEN | grep 8545
 1. Run Anvil fork with 
 
 ```zsh
-anvil --fork-url https://eth.llamarpc.com
+anvil --fork-url https://eth.llamarpc.com --fork-block-number 17806055
 ```
 
 2. Impersonate your account `0xYOUR_WALLET_ADDRESS` 
@@ -63,19 +63,3 @@ forge script \
   -vvv \
   --broadcast
 ```
-
-## Run
-
-Do not change your script and contract after the test
-
-```zsh
-forge script \
-  script/Whitehack.s.sol:WhitehackScript \
-  --rpc-url "https://rpc.flashbots.net?hint=hash" \
-  --sender "0xYOUR_WALLET_ADDRESS" \
-  --interactives 1 \
-  -vvv \
-  --broadcast
-```
-
-The rpc url is set for [Full Privacy](https://docs.flashbots.net/flashbots-protect/rpc/mev-share#full-privacy) on Flashbots
